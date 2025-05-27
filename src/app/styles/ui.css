@@ -1,0 +1,13 @@
+html {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter';
+  background-color: #396B68;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+}
