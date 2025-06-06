@@ -15,6 +15,8 @@ const Column = ({
   sections,
   openRequestsTooltip,
   openSettings,
+  setSettings,
+  requests,
 }: {
   icon: React.ReactNode;
   title: string;
@@ -25,17 +27,15 @@ const Column = ({
   };
   openRequestsTooltip?: () => void;
   openSettings?: () => void;
+  setSettings: React.Dispatch<React.SetStateAction<{
+    uxMultiplier: string;
+    uiMultiplier: string;
+    additionalAssets: string;
+    sizeMult: string;
+    requests: string;
+  }>>;
+  requests: string;
 }) => {
-  const [requests, setRequests] = React.useState<string | number>(sections.req.value)
-  useEffect(() => {
-    parent.postMessage({
-      pluginMessage: {
-        type: 'count',
-        requests: requests || 0
-      }
-    }, '*');
-  }, [requests])
-
   return (
     <Flex flexDir={'column'} border={'1px solid #E3E3E3'} p={'12px'} borderRadius={'4px'} flex={1} gap={'12px'}>
       <Flex flexDir={'row'} gap={'8px'} alignItems={'center'} mb={'4px'}>
@@ -160,7 +160,7 @@ const Column = ({
             <Input
               type={'text'}
               value={requests}
-              onChange={(e) => setRequests(e.target.value)}
+              onChange={(e) => setSettings(prev => ({ ...prev, requests: e.target.value }))}
               fontSize={'16px'}
               fontWeight={800}
               color={'#226D68'}
@@ -284,6 +284,8 @@ const Metrics = ({
   values,
   openRequestsTooltip,
   openSettings,
+  setSettings,
+  requests,
 }: {
   values: {
     dom: { figma: number; estimate: number };
@@ -292,6 +294,14 @@ const Metrics = ({
   };
   openRequestsTooltip: () => void;
   openSettings: () => void;
+  setSettings: React.Dispatch<React.SetStateAction<{
+    uxMultiplier: string;
+    uiMultiplier: string;
+    additionalAssets: string;
+    sizeMult: string;
+    requests: string;
+  }>>;
+  requests: string;
 }) => {
   const [pixels, setPixels] = React.useState<{
     value: number | string;
@@ -326,6 +336,8 @@ const Metrics = ({
           size: { title: 'Page weight', value: pixels.value, label: pixels.label }
         }}
         openRequestsTooltip={openRequestsTooltip}
+        setSettings={setSettings}
+        requests={requests}
       />
       <Column
         icon={<Html />}
@@ -336,6 +348,8 @@ const Metrics = ({
           size: { value: values.size.size.toFixed(2), label: 'Mo' }
         }}
         openSettings={openSettings}
+        setSettings={setSettings}
+        requests={requests}
       />
     </Flex>
   )

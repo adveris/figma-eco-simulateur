@@ -65,7 +65,7 @@ const Footer = () => {
         </Flex>
         <Text>
           Version
-          <Strong color={'#fff'}> 10</Strong>
+          <Strong color={'#fff'}> 11</Strong>
         </Text>
       </Flex>
     </Flex >

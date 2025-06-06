@@ -17,9 +17,10 @@ function getRootSelectedNode(selection: readonly SceneNode[], page: PageNode): S
   return node;
 }
 
-function postSelectionMessage(selector: SceneNode) {
+function postSelectionMessage(selector: SceneNode, sizeDepth?: number, additionalAssets?: number) {
   const result = countLayers([selector]);
-  const sizeEstimation = getSizeEstimation([selector], SIZE_ESTIMATION_DEPTH, SIZE_ESTIMATION_INITIAL);
+  const sizeEstimation = getSizeEstimation([selector], sizeDepth || SIZE_ESTIMATION_DEPTH, additionalAssets || SIZE_ESTIMATION_INITIAL);
+
   figma.ui.postMessage({
     type: 'selection',
     data: {
@@ -37,11 +38,11 @@ function postResetMessage() {
   });
 }
 
-function handleSelection() {
+function handleSelection(sizeDepth?: number, additionalAssets?: number) {
   const page = figma.currentPage;
   const selector = getRootSelectedNode(page.selection, page);
   if (selector) {
-    postSelectionMessage(selector);
+    postSelectionMessage(selector, sizeDepth, additionalAssets);
   } else {
     postResetMessage();
   }
@@ -50,18 +51,14 @@ function handleSelection() {
 figma.ui.onmessage = async (msg: {
   type: string,
   uiMode: boolean,
-  ui: {
-    dom: string,
-  },
-  ux: {
-    dom: string,
-  },
-  size: string,
+  sizeDepth: string,
   additionalAssets: string,
-  requests: number,
 }) => {
   if (msg.type === 'count' || msg.type === 'changeMultiplier') {
-    handleSelection();
+    handleSelection(
+      parseFloat(msg.sizeDepth),
+      parseFloat(msg.additionalAssets),
+    );
   }
 };
 

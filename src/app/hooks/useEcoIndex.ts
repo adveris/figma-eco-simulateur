@@ -27,6 +27,7 @@ interface EcoIndexResult {
     score: number;
     grade: string;
   };
+  additionalAssets: number;
 }
 
 interface UseEcoIndexProps {
@@ -76,7 +77,8 @@ export function useEcoIndex({
           waterConsumption: getWaterConsumption(accurateEcoIndex.score),
           ecoIndexMin,
           ecoIndexMax,
-          accurateEcoIndex
+          accurateEcoIndex,
+          additionalAssets,
         });
       } else if (message.type === 'reset') {
         setResult(null);

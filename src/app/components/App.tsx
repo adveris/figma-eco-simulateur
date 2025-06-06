@@ -24,23 +24,26 @@ const App = () => {
   const [mode, setMode] = React.useState<0 | 1>(0);
 
   const { settings, setSettings } = useSettings();
+
   const informations = useEcoIndex({
     uiMode: mode === 1,
-    uiDomMultiplier: settings.uiMultiplier,
-    uxDomMultiplier: settings.uxMultiplier,
-    sizeMult: settings.sizeMult,
-    additionalAssets: settings.additionalAssets,
-    requests: settings.requests
+    uiDomMultiplier: isNaN(parseFloat(settings.uiMultiplier)) ? 1 : parseFloat(settings.uiMultiplier),
+    uxDomMultiplier: isNaN(parseFloat(settings.uxMultiplier)) ? 1 : parseFloat(settings.uxMultiplier),
+    sizeMult: isNaN(parseFloat(settings.sizeMult)) ? 1 : parseFloat(settings.sizeMult),
+    additionalAssets: isNaN(parseFloat(settings.additionalAssets)) ? 0 : parseFloat(settings.additionalAssets),
+    requests: isNaN(parseFloat(settings.requests)) ? 0 : parseFloat(settings.requests)
   });
 
   React.useEffect(() => {
     parent.postMessage({
       pluginMessage: {
         type: 'count',
-        uiMode: mode === 1
+        uiMode: mode === 1,
+        sizeDepth: settings.sizeMult,
+        additionalAssets: settings.additionalAssets,
       }
     }, '*');
-  }, [mode]);
+  }, [mode, settings]);
 
   return (
     <ChakraProvider value={defaultSystem}>
@@ -67,6 +70,8 @@ const App = () => {
               waterConsumption={informations.waterConsumption}
             />
             <Metrics
+              requests={settings.requests}
+              setSettings={setSettings}
               openSettings={() => setSettingsOpen(true)}
               openRequestsTooltip={() => setRequestsTooltipOpen(true)}
               values={{
