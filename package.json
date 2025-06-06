@@ -1,6 +1,6 @@
 {
   "name": "eco-simulateur",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Eco simulateur pour calculer le score environnemental de vos projets",
   "license": "",
   "scripts": {

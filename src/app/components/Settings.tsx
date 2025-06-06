@@ -10,18 +10,18 @@ interface SettingsProps {
   settingsOpen: boolean;
   closeSettings: () => void;
   settings: {
-    uxMultiplier: number;
-    uiMultiplier: number;
-    additionalAssets: number;
-    sizeMult: number;
-    requests: number;
+    uxMultiplier: string;
+    uiMultiplier: string;
+    additionalAssets: string;
+    sizeMult: string;
+    requests: string;
   };
   setSettings: React.Dispatch<React.SetStateAction<{
-    uxMultiplier: number;
-    uiMultiplier: number;
-    additionalAssets: number;
-    sizeMult: number;
-    requests: number;
+    uxMultiplier: string;
+    uiMultiplier: string;
+    additionalAssets: string;
+    sizeMult: string;
+    requests: string;
   }>>;
 }
 
@@ -150,10 +150,7 @@ const Settings = ({
           color={'#226D68'}
           value={settings.uxMultiplier}
           onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            if (!Number.isNaN(value)) {
-              setSettings(prev => ({ ...prev, uxMultiplier: value }));
-            }
+            setSettings(prev => ({ ...prev, uxMultiplier: e.target.value }));
           }}
         />
       </Flex>
@@ -224,10 +221,7 @@ const Settings = ({
           color={'#226D68'}
           value={settings.uiMultiplier}
           onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            if (!Number.isNaN(value)) {
-              setSettings(prev => ({ ...prev, uiMultiplier: value }));
-            }
+            setSettings(prev => ({ ...prev, uiMultiplier: e.target.value }));
           }}
         />
       </Flex>
@@ -297,10 +291,7 @@ const Settings = ({
           color={'#226D68'}
           value={settings.additionalAssets}
           onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            if (!Number.isNaN(value)) {
-              setSettings(prev => ({ ...prev, additionalAssets: value }));
-            }
+            setSettings(prev => ({ ...prev, additionalAssets: e.target.value }));
           }}
         />
       </Flex>
@@ -352,10 +343,7 @@ const Settings = ({
           color={'#226D68'}
           value={settings.sizeMult}
           onChange={(e) => {
-            const value = parseFloat(e.target.value);
-            if (!Number.isNaN(value)) {
-              setSettings(prev => ({ ...prev, sizeMult: value }));
-            }
+            setSettings(prev => ({ ...prev, sizeMult: e.target.value }));
           }}
         />
       </Flex>
